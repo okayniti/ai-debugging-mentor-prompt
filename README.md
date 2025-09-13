@@ -1,46 +1,60 @@
-**AI Debugging Mentor Prompt (Python)**
-This repository contains a refined system prompt that turns an AI into a non‑revealing Python debugging mentor, designed to build student skill through hints, micro‑experiments, and adaptive depth. It enforces “hints‑not‑solutions,” ensures a clear structure, and scales from beginner to advanced learners.
+# AI Debugging Mentor Prompt (Python)
 
-Files
-PROMPT.md — The exact prompt to paste into the AI system/developer message.
+This repository contains a refined **system prompt** that turns an AI into a **non-revealing Python debugging mentor**, designed to build student skill through **hints, micro-experiments, and adaptive depth**.  
 
-README.md — Rationale, usage, and example interactions.
+It enforces a strict **“hints-not-solutions”** rule, ensures a clear structure, and scales support from **beginner to advanced learners**.
 
-How to use
-Open the AI tool and paste PROMPT.md into the system or developer message so it governs all replies.
 
-Provide a small buggy Python snippet plus a one‑line “expected vs. actual” description to reduce ambiguity and speed diagnosis.
 
-Keep iterations short: answer the bot’s 1–2 diagnostic questions, apply checks, and re‑run to converge on the root cause.
+##  Files
 
-Prompt (PROMPT.md)
-Paste the “Final Prompt” from this repo into a system/developer message for consistent behavior and structure.
+- **PROMPT.md** — The exact prompt to paste into the AI system/developer message.  
+- **README.md** — Rationale, usage, and example interactions.
 
-Example interaction (non‑revealing)
-Student input
-Code: A function that builds a frequency dict but returns wrong counts.
 
+
+##  How to Use
+
+1. Open your AI tool and **paste `PROMPT.md` into the system or developer message** so it governs all replies.  
+2. Provide a **small buggy Python snippet** plus a one-line **“expected vs. actual”** description to reduce ambiguity and speed diagnosis.  
+3. Keep iterations short:  
+   - Answer the AI’s **1–2 diagnostic questions**  
+   - Apply checks  
+   - Re-run to converge on the root cause  
+
+
+##  Prompt (PROMPT.md)
+
+Paste the **Final Prompt** from this repo into a **system/developer message** for consistent behavior and structure.
+
+
+
+## Example Interaction (Non-Revealing)
+
+**Student Input**  
+Code: A function that builds a frequency dict but returns wrong counts.  
 Expected vs Actual: Expected counts per value; actual shows all keys mapped to the same number.
 
-AI (Observation)
-Summarizes intent and current behavior in plain language, acknowledging partial correctness.
 
-AI (Potential Issues)
-Points to use of a single mutable default dict reused across calls, or incrementing a shared counter rather than per‑key updates, explaining the likely mechanism.
+**AI Response**
 
-AI (Guidance)
-Suggests printing id() of the dict across calls, adding an assertion on per‑key increments, and testing with inputs like [], , and to isolate state/mutation issues—without writing any code changes.
+Observation- 
+It looks like your function is trying to count how many times each value appears. Right now, every key ends up with the same count, so the structure of the dictionary is correct but the counting logic is off.
 
-AI (Questions)
-“Is this function called multiple times within the same run?”
+Potential Issues- 
+One possibility is that the same counter is being reused for every key. This often happens if a mutable default object is shared, or if an increment operation updates a single variable instead of per-key values.
 
-“What does printing the dict after each loop iteration show?”
+## Guidance
+Try:
 
-Design choices
-Structured triad response keeps feedback focused and scannable, mirroring expert debugging workflows and reducing hallucinations.
+- Printing id() of the dictionary across calls to see if it’s reused.
 
-Strict “no patches” rule enforces incremental hinting and student agency consistent with tutoring best practices.
+- Printing the dictionary after each loop iteration to check how counts evolve.
 
-Adaptive depth directive helps different learners: fundamentals for novices; deeper software‑engineering concerns for advanced students.
+- Testing on very small inputs like [], [1], [1,1].
 
-Clarity‑first constraints improve output reliability: role specification, explicit format, prioritization rule, concise tone.
+## Questions
+
+- Is this function called multiple times within the same run?
+
+- What do you see when you print the dictionary inside the loop?
